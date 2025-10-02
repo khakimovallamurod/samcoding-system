@@ -25,7 +25,7 @@
                      <div class="row column_title">
                         <div class="col-md-12">
                            <div class="page_title">
-                              <h2>Bosh sahifa <?php echo md5('JgifLxqUdZSw889p')?> </h2>
+                              <h2>Bosh sahifa </h2>
                            </div>
                         </div>
                      </div>
