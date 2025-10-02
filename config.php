@@ -74,24 +74,28 @@ class Database{
         }
     }
     public function update($table, $arr, $con = 'no'){
-            $sql = "UPDATE ".$table. " SET ";
-            $t = '';
-            $i=0;
-            $n = count($arr);
-            foreach($arr as $key=>$val){
-                $i++;
-                if($i==$n){
-                    $t .= "$key = '$val'";
-                }else{
-                    $t .= "$key = '$val', ";
-                }
+        $sql = "UPDATE ".$table. " SET ";
+        $t = '';
+        $i=0;
+        $n = count($arr);
+        foreach($arr as $key=>$val){
+            $val = addslashes($val);
+
+            $i++;
+            if($i==$n){
+                $t .= "$key = '$val'";
+            }else{
+                $t .= "$key = '$val', ";
             }
-            $sql .= $t;
-            if ($con != 'no'){
-                $sql .= " WHERE ".$con;
-            }
-            return $this -> query($sql);
         }
+        $sql .= $t;
+        if ($con != 'no'){
+            $sql .= " WHERE ".$con;
+        }
+
+        return $this->query($sql);
+    }
+
     public function delete($table, $con = 'no'){
             $sql = "DELETE FROM ".$table;
             if ($con != 'no'){

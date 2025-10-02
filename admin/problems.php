@@ -4,6 +4,23 @@
    $db = new Database();
    $problems = $db->get_data_by_table_all("problems");
 ?>
+<style>
+    .btn-warning {
+    margin-right: 5px;
+}
+
+.modal-content {
+    border-radius: 10px;
+}
+
+.modal-header.bg-danger {
+    border-radius: 10px 10px 0 0;
+}
+
+.required {
+    color: red;
+}
+</style>
 <html lang="en">
    <?php include_once 'head.php'?>
    <head>
@@ -51,6 +68,8 @@
                                                     <th>✔️</th>
                                                     <th>❌</th>
                                                     <th>Reyting</th>
+                                                    <th>Update</th>
+                                                    <th>Delete</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -65,6 +84,16 @@
                                                     <td><span class="status-correct">5</span></td>
                                                     <td><span class="status-wrong">1343</span></td>
                                                     <td><strong>0.4</strong></td>
+                                                    <td>
+                                                        <a href="update.php?id=<?= (int)$problem['id'] ?>" class="btn btn-sm btn-warning">
+                                                            <i class="fa fa-edit"></i> Tahrirlash
+                                                        </a>
+                                                    </td>
+                                                    <td>
+                                                        <button onclick="confirmDelete(<?= (int)$problem['id'] ?>)" class="btn btn-sm btn-danger">
+                                                            <i class="fa fa-trash"></i> O'chirish
+                                                        </button>
+                                                    </td>
                                                 </tr>
                                                 <?php endforeach; ?>
                                             </tbody>
@@ -79,18 +108,76 @@
             </div>
          </div>
       </div>
-      
-      <!-- jQuery -->
+    <!-- Delete Confirmation Modal -->
+    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header bg-danger text-white">
+                    <h5 class="modal-title">
+                        <i class="fa fa-warning"></i> Masalani O'chirish
+                    </h5>
+                    <button type="button" class="close text-white" data-dismiss="modal">
+                        <span>&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p class="text-center">
+                        <i class="fa fa-exclamation-triangle fa-3x text-warning mb-3"></i>
+                    </p>
+                    <h5 class="text-center">Ishonchingiz komilmi?</h5>
+                    <p class="text-center">Bu masalani o'chirishni xohlaysizmi? Bu amalni qaytarib bo'lmaydi!</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                        <i class="fa fa-times"></i> Bekor qilish
+                    </button>
+                    <button type="button" class="btn btn-danger" id="confirmDeleteBtn">
+                        <i class="fa fa-trash"></i> Ha, O'chirish
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    
       <script src="../js/jquery.min.js"></script>
       <script src="../js/bootstrap.min.js"></script>
       <script src="../js/perfect-scrollbar.min.js"></script>
       
-      <!-- DataTables JS -->
       <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
       <script src="https://cdn.datatables.net/1.13.7/js/dataTables.bootstrap4.min.js"></script>
       <script src="https://cdn.datatables.net/responsive/2.5.0/js/dataTables.responsive.min.js"></script>
       <script src="https://cdn.datatables.net/responsive/2.5.0/js/responsive.bootstrap4.min.js"></script>
-      
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+      <script>
+            let deleteId = null;
+
+            function confirmDelete(id) {
+                deleteId = id;
+                $('#deleteModal').modal('show');
+            }
+
+            document.getElementById('confirmDeleteBtn').addEventListener('click', function() {
+            if (deleteId) {
+                fetch('delete_problem.php?id=' + deleteId)
+                    .then(response => response.json())
+                    .then(data => {
+                        $('#deleteModal').modal('hide');
+                        if (data.success) {
+                            toastr.success(data.message, "Muvaffaqiyat ✅");
+                            setTimeout(() => location.reload(), 2000); 
+                        } else {
+                            toastr.error(data.message, "Xatolik ❌");
+                        }
+                    })
+                    .catch(error => {
+                        toastr.error('Xatolik: ' + error.message, "Server bilan muammo");
+                    });
+            }
+        });     
+
+      </script>
       <script>
          var ps = new PerfectScrollbar('#sidebar');
          

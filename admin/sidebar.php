@@ -69,7 +69,7 @@
 <?php
     session_start();
     if (!isset($_SESSION['id']) || empty($_SESSION['id']) && $_SESSION['role'] != 'admin') {
-        header("Location: auth/login.php");
+        header("Location: ../auth/login.php");
         exit;
     }
 ?>
