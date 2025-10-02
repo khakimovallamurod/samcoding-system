@@ -1,23 +1,23 @@
 <?php
    session_start();
    if (!isset($_SESSION['id']) || empty($_SESSION['id'])) {
-      header("Location: auth/login.php");
+      header("Location: ../auth/login.php");
       exit;
    }
 
 ?>
 <html lang="en">
-   <?php include_once 'includes/head.php'?>
+   <?php include_once 'head.php'?>
    <body class="dashboard dashboard_1">
       <div class="full_container">
          <div class="inner_container">
             <!-- Sidebar  -->
-            <?php include_once 'includes/sidebar.php'?>
+            <?php include_once 'sidebar.php'?>
             <!-- end sidebar -->
             <!-- right content -->
             <div id="content">
                <!-- topbar -->
-               <?php include_once 'includes/topbar.php'?>
+               <?php include_once 'topbar.php'?>
                <!-- end topbar -->
                <!-- dashboard inner -->
                <div class="midde_cont">
@@ -25,7 +25,7 @@
                      <div class="row column_title">
                         <div class="col-md-12">
                            <div class="page_title">
-                              <h2>Sozlamalar </h2>
+                              <h2>Sozlamalar</h2>
                            </div>
                         </div>
                      </div>
@@ -37,10 +37,10 @@
          </div>
       </div>
       <!-- jQuery -->
-      <script src="js/jquery.min.js"></script>
-      <script src="js/bootstrap.min.js"></script>
+      <script src="../js/jquery.min.js"></script>
+      <script src="../js/bootstrap.min.js"></script>
       
-      <script src="js/perfect-scrollbar.min.js"></script>
+      <script src="../js/perfect-scrollbar.min.js"></script>
       <script>
          var ps = new PerfectScrollbar('#sidebar');
       </script>

@@ -73,16 +73,32 @@
         exit;
     }
 ?>
+<?php 
+$current_page = basename($_SERVER['PHP_SELF']); 
+?>
+
 <nav id="sidebar">
     <div class="sidebar-header">
         <h4>SamCoding</h4>
     </div>
     <ul>
-        <li class="active"><a href="index.php"><i class="fa fa-home"></i>Bosh sahifa</a></li>
-        <li><a href="problems.php"><i class="fa fa-code"></i>Masalalar</a></li>
-        <li><a href="olympiads.php"><i class="fa fa-trophy"></i>Olimpiadalar</a></li>
-        <li><a href="ranking.php"><i class="fa fa-signal"></i>Reyting</a></li>
-        <li><a href="settings.php"><i class="fa fa-cog"></i>Sozlamalar</a></li>
-        <li><a href="auth/logout.php"><i class="fa fa-sign-out"></i>Chiqish</a></li>
+        <li class="<?= ($current_page == 'index.php') ? 'active' : '' ?>">
+            <a href="index.php"><i class="fa fa-home"></i>Bosh sahifa</a>
+        </li>
+        <li class="<?= ($current_page == 'problems.php') ? 'active' : '' ?>">
+            <a href="problems.php"><i class="fa fa-code"></i> Masalalar</a>
+        </li>
+        <li class="<?= ($current_page == 'olympiads.php') ? 'active' : '' ?>">
+            <a href="olympiads.php"><i class="fa fa-trophy"></i>Olimpiadalar</a>
+        </li>
+        <li class="<?= ($current_page == 'ranking.php') ? 'active' : '' ?>">
+            <a href="ranking.php"><i class="fa fa-signal"></i>Reyting</a>
+        </li>
+        <li class="<?= ($current_page == 'settings.php') ? 'active' : '' ?>">
+            <a href="settings.php"><i class="fa fa-cog"></i>Sozlamalar</a>
+        </li>
+        <li>
+            <a href="auth/logout.php"><i class="fa fa-sign-out"></i>Chiqish</a>
+        </li>
     </ul>
 </nav>
