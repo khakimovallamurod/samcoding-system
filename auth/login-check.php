@@ -11,7 +11,7 @@
         $_SESSION['id'] = $fetch['id'];
         $_SESSION['fullname'] = $fetch['fullname'];
         $_SESSION['role'] = $fetch['role'];
-        $ret += ['error'=>0, 'message'=>"You have successfully logged in!", 'redirect'=>$fetch['role']];
+        $ret += ['error'=>0, 'message'=>"You have successfully logged in!", 'rederict'=> $_SESSION['role']];
     }else{
         $ret += ['error'=>1, 'message'=>"Error! Invalid login or password"];
 

@@ -1,3 +1,6 @@
+<?php
+    session_start();
+?>
 <div class="topbar">
     <nav class="navbar navbar-expand-lg navbar-light">
         <div class="full">
@@ -5,7 +8,7 @@
             <div class="icon_info">
                 <ul class="user_profile_dd">
                     <li>
-                    <a class="dropdown-toggle" data-toggle="dropdown"><img class="img-responsive rounded-circle" src="images/layout_img/user_img.jpg" alt="#" /><span class="name_user">John David</span></a>
+                    <a class="dropdown-toggle" data-toggle="dropdown"><img class="img-responsive rounded-circle" src="images/layout_img/user_img.jpg" alt="#" /><span class="name_user"><?=$_SESSION['fullname']?></span></a>
                     <div class="dropdown-menu">
                         <a class="dropdown-item" href="profile.php">My Profile</a>
                         <a class="dropdown-item" href="auth/logout.php"><span>Log Out</span> <i class="fa fa-sign-out"></i></a>

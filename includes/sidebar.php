@@ -66,7 +66,13 @@
     color: #fff;
 }
 </style>
-
+<?php
+    session_start();
+    if (!isset($_SESSION['id']) || empty($_SESSION['id'])) {
+        header("Location: auth/login.php");
+        exit;
+    }
+?>
 <nav id="sidebar">
     <div class="sidebar-header">
         <h4>SamCoding</h4>
@@ -76,8 +82,7 @@
         <li><a href="problems.php"><i class="fa fa-code"></i>Masalalar</a></li>
         <li><a href="olympiads.php"><i class="fa fa-trophy"></i>Olimpiadalar</a></li>
         <li><a href="ranking.php"><i class="fa fa-signal"></i>Reyting</a></li>
-        <li><a href="resources.php"><i class="fa fa-book"></i>Resurslar</a></li>
         <li><a href="settings.php"><i class="fa fa-cog"></i>Sozlamalar</a></li>
-        <li><a href="logout.php"><i class="fa fa-sign-out"></i>Chiqish</a></li>
+        <li><a href="auth/logout.php"><i class="fa fa-sign-out"></i>Chiqish</a></li>
     </ul>
 </nav>

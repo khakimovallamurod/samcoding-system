@@ -1,0 +1,136 @@
+/* Custom hover color - Blue instead of green */
+.table tbody tr:hover {
+    background-color: #e3f2fd !important;
+    transition: all 0.3s ease;
+}
+
+.table-striped tbody tr:nth-of-type(odd):hover {
+    background-color: #e3f2fd !important;
+}
+
+/* DataTables search input styling */
+.dataTables_filter input {
+    border: 2px solid #e9ecef;
+    border-radius: 6px;
+    padding: 6px 12px;
+    transition: all 0.3s;
+}
+
+.dataTables_filter input:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+}
+
+/* Difficulty badges */
+.difficulty-badge {
+    padding: 3px 8px;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    display: inline-block;
+    min-width: 50px;
+    text-align: center;
+}
+
+.difficulty-easy {
+    background: #d4edda;
+    color: #155724;
+}
+
+.difficulty-medium {
+    background: #fff3cd;
+    color: #856404;
+}
+
+.difficulty-hard {
+    background: #f8d7da;
+    color: #721c24;
+}
+
+/* Category badges */
+.category-badge {
+    padding: 3px 8px;
+    border-radius: 10px;
+    font-size: 0.75rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+}
+
+.category-interactive {
+    background: #e3f2fd;
+    color: #1565c0;
+}
+
+.category-algorithm {
+    background: #f3e5f5;
+    color: #7b1fa2;
+}
+
+.category-math {
+    background: #fff8e1;
+    color: #ef6c00;
+}
+
+.category-graph {
+    background: #e8f5e8;
+    color: #2e7d32;
+}
+
+/* Rating stars */
+.rating-stars {
+    color: #ffc107;
+    font-size: 0.9rem;
+}
+
+/* Status colors */
+.status-correct {
+    color: #28a745;
+    font-weight: 600;
+}
+
+.status-wrong {
+    color: #dc3545;
+    font-weight: 600;
+}
+
+.status-participants {
+    color: #6c757d;
+    font-weight: 600;
+}
+
+/* DataTables pagination styling */
+.dataTables_paginate .paginate_button:hover {
+    background: #e3f2fd !important;
+    border-color: #007bff !important;
+    color: #007bff !important;
+}
+
+.dataTables_paginate .paginate_button.current {
+    background: #007bff !important;
+    border-color: #007bff !important;
+    color: white !important;
+}
+
+/* Filter dropdowns */
+.filter-dropdown {
+    margin-left: 10px;
+    padding: 4px 8px;
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    font-size: 0.9rem;
+}
+
+/* Table responsiveness */
+@media (max-width: 768px) {
+    .table thead th,
+    .table tbody td {
+        padding: 8px 4px;
+        font-size: 0.8rem;
+    }
+    
+    .btn-sm {
+        padding: 4px 8px;
+        font-size: 0.7rem;
+    }
+}

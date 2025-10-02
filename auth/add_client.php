@@ -6,10 +6,10 @@
 
     $fullname = $_POST['fullname'] ?? '';
     $username = $_POST['username'] ?? '';
+    $otm = $_POST['otm'] ?? '';
+    $course = $_POST['course'] ?? '';
     $phone    = $_POST['phone'] ?? '';
     $email    = $_POST['email'] ?? '';
-    $address  = $_POST['address'] ?? '';
-    $role     = $_POST['role'] ?? '';
     $password = !empty($_POST['password']) ? md5($_POST['password']) : '';
 
     $ret = [];
@@ -26,14 +26,15 @@
         'username' => $username,
         'phone'    => $phone,
         'email'    => $email,
-        'address'  => $address,
-        'role'     => $role,
+        'otm'  => $otm,
+        'course'     => $course,
         'password' => $password
     ]);
-    if ($sql) {
+    if ($sql != 0) {
         $user = $db->get_data_by_table('users', ['username' => $username]);
         if ($user && isset($user['id'])) {
             $_SESSION['id'] = $user['id'];
+            $_SESSION['role'] = $fetch['role'];
         }
         $ret = ['error' => 0, 'message' => 'Successfully registered!'];
     } else {

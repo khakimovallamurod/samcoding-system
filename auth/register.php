@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Register Form</title> 
     <script src="https://kit.fontawesome.com/a076d05399.js"></script>
-    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="../css/register_style.css">
   </head>
 <body>
   <div class="bg-img">
@@ -26,7 +26,21 @@
           <input type="text" name="username" id="lgn" required>
           <label for="lgn">Enter your username</label>
         </div>
-        <p class="usernamealert"  id="helpblock"></p>
+        <p class="usernamealert" id="helpblock"></p>
+
+        <!-- OTM -->
+        <div class="field">
+          <span class="fa fa-university"></span>
+          <input type="text" name="otm" id="otm" required>
+          <label for="otm">Enter your University (OTM)</label>
+        </div>
+
+        <!-- Course -->
+        <div class="field">
+          <span class="fa fa-graduation-cap"></span>
+          <input type="number" name="course" id="course" min="1" max="6" required>
+          <label for="course">Enter your course</label>
+        </div>
 
         <!-- Phone -->
         <div class="field">
@@ -38,26 +52,8 @@
         <!-- Email -->
         <div class="field">
           <span class="fa fa-envelope"></span>
-          <input type="email" name="email" required>
+          <input type="email" name="email" id="email" required>
           <label for="email">Enter your email</label>
-        </div>
-
-        <!-- Address -->
-        <div class="field">
-          <span class="fa fa-home"></span>
-          <input type="text" name="address" id="address" required>
-          <label for="address">Enter your address</label>
-        </div>
-
-        <!-- Select Role -->
-        <div class="field select">
-          <span class="fa fa-users"></span>
-          <select name="role" id="role" required>
-            <option value="">-- Select Role --</option>
-            <option value="student">Student</option>
-            <option value="parent">Parent</option>
-          </select>
-          <label for="role">Select your role</label>
         </div>
 
         <!-- Password -->
@@ -80,10 +76,9 @@
           <input type="submit" value="SIGN UP">
         </div>
       </form>
-
       <div class="signup">
         Already have account?
-        <a href="../index.php">Login Now</a>
+        <a href="login.php">Login Now</a>
       </div>
     </div>
   </div>
@@ -102,17 +97,14 @@
       });
     }
 
-    // Check on page load
     $(document).ready(function() {
       handleFloatingLabels();
     });
 
-    // Check on input change
     $('input, select').on('input change', function() {
       handleFloatingLabels();
     });
 
-    // Username check
     $('#lgn').on("keyup", function(){
       let l = $(this).val();
       $.ajax({

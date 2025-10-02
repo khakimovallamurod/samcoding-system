@@ -1,0 +1,240 @@
+@import url('https://fonts.googleapis.com/css?family=Montserrat:400,500,600,700|Poppins:400,500&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  user-select: none;
+  font-family: 'Poppins', sans-serif;
+}
+
+.bg-img {
+  background: url('../images/landing_page/fakutlet.png');
+  height: 100vh;
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.bg-img:after {
+  position: absolute;
+  content: '';
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background: rgba(0,0,0,0.7);
+}
+
+.content {
+  position: relative;
+  z-index: 999;
+  text-align: center;
+  padding: 40px 35px;
+  width: 100%;
+  max-width: 500px;
+  background: rgba(255,255,255,0.05);
+  border-radius: 16px;
+  box-shadow: -1px 4px 28px 0px rgba(0,0,0,0.75);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255,255,255,0.1);
+}
+
+.content header {
+  color: white;
+  font-size: 32px;
+  font-weight: 600;
+  margin-bottom: 30px;
+  font-family: 'Montserrat', sans-serif;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+
+.field {
+  position: relative;
+  height: 56px;
+  width: 100%;
+  margin-bottom: 24px;
+  background: rgba(255,255,255,0.95);
+  border-radius: 12px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.field:focus-within {
+  box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+  transform: translateY(-2px);
+}
+
+.field span {
+  position: absolute;
+  left: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #666;
+  font-size: 16px;
+  transition: all 0.3s ease;
+  z-index: 2;
+}
+
+.field input,
+.field select {
+  height: 100%;
+  width: 100%;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: #222;
+  font-size: 16px;
+  padding: 24px 16px 8px 50px;
+  font-family: 'Poppins', sans-serif;
+  transition: all 0.3s ease;
+}
+
+.field select {
+  appearance: none;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  cursor: pointer;
+  padding-right: 50px;
+}
+
+.field label {
+  position: absolute;
+  top: 50%;
+  left: 50px;
+  transform: translateY(-50%);
+  color: #999;
+  font-size: 16px;
+  pointer-events: none;
+  transition: all 0.3s ease;
+  background: transparent;
+  z-index: 1;
+}
+
+.field input:focus + label,
+.field input:valid + label,
+.field select:focus + label,
+.field select:valid + label,
+.field.has-value label {
+  top: 12px;
+  left: 50px;
+  font-size: 12px;
+  color: #3498db;
+  font-weight: 500;
+  transform: translateY(0);
+}
+
+.field input:focus,
+.field select:focus {
+  background: rgba(255,255,255,0.98);
+}
+
+/* Select dropdown arrow */
+.field.select::after {
+  content: '\25BC';
+  position: absolute;
+  right: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #666;
+  pointer-events: none;
+  font-size: 12px;
+}
+
+.error-msg {
+  font-size: 13px;
+  color: #ff6b6b;
+  margin-top: -16px;
+  margin-bottom: 16px;
+  text-align: left;
+  display: none;
+  background: rgba(255,107,107,0.1);
+  padding: 8px 12px;
+  border-radius: 8px;
+  border-left: 3px solid #ff6b6b;
+}
+
+.field input[type="submit"],
+.field button {
+  background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+  border: none;
+  color: white;
+  font-size: 18px;
+  letter-spacing: 1px;
+  font-weight: 600;
+  cursor: pointer;
+  border-radius: 12px;
+  transition: all 0.3s ease;
+  padding: 16px;
+  box-shadow: 0 4px 15px rgba(52,152,219,0.3);
+}
+
+.field input[type="submit"]:hover,
+.field button:hover {
+  background: linear-gradient(135deg, #2980b9 0%, #3498db 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(52,152,219,0.4);
+}
+
+.signup {
+  font-size: 15px;
+  color: white;
+  margin-top: 20px;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+}
+
+.signup a {
+  color: #3498db;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.signup a:hover {
+  color: #5dade2;
+  text-decoration: underline;
+}
+
+#helpblock {
+  font-size: 12px;
+  color: #ff6b6b;
+  background: rgba(255,107,107,0.1);
+  padding: 4px 6px;       
+  border-radius: 6px;
+  margin-top: 1px;       
+  margin-bottom: 8px;    
+  border-left: 2px solid #ff6b6b;
+  display: none;
+}
+
+
+/* Animation for form appearance */
+.content {
+  animation: slideInUp 0.6s ease-out;
+}
+
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -30%);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%);
+  }
+}
+
+/* Responsive design */
+@media (max-width: 600px) {
+  .content {
+    margin: 20px;
+    padding: 30px 25px;
+  }
+  
+  .content header {
+    font-size: 28px;
+  }
+}
