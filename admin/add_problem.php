@@ -122,15 +122,6 @@
                                                             value="16384" min="4096" max="262144" required>
                                                         <small class="form-text text-muted">Standart: 16MB</small>
                                                     </div>
-
-                                                    <div class="info-box">
-                                                        <h5>📌 Eslatma</h5>
-                                                        <ul>
-                                                            <li>Barcha majburiy maydonlarni to'ldiring</li>
-                                                            <li>Masala tavsifini aniq va tushunarli yozing</li>
-                                                            <li>Cheklovlarni to'g'ri ko'rsating</li>
-                                                        </ul>
-                                                    </div>
                                                 </div>
                                             </div>
 
@@ -143,63 +134,121 @@
                                         <!-- Step 2: Test Cases -->
                                         <div class="form-step" id="step2">
                                             <div class="row">
-                                                <div class="col-md-8">
-                                                    <div class="upload-section">
-                                                        <h4>📦 Test Case'larni Yuklash</h4>
-                                                        <p class="text-muted">Test fayllarini ZIP arxivi sifatida yuklang</p>
-                                                        
-                                                        <div class="file-upload-wrapper">
-                                                            <input type="file" id="testcases_zip" name="testcases_zip" 
-                                                                accept=".zip" required onchange="handleFileSelect(event)">
-                                                            <label for="testcases_zip" class="file-upload-label">
-                                                                <i class="fa fa-cloud-upload"></i>
-                                                                <span id="file-name">ZIP faylni tanlang yoki bu yerga tashlang</span>
-                                                            </label>
-                                                        </div>
+                                                <div class="col-md-12">
+                                                    <!-- Tab Navigation -->
+                                                    <ul class="nav nav-tabs mb-4" id="uploadTabs" role="tablist">
+                                                        <li class="nav-item">
+                                                            <a class="nav-link active" id="zip-tab" data-toggle="tab" href="#zipUpload" role="tab">
+                                                                <i class="fa fa-file-archive-o"></i> ZIP File Yuklash
+                                                            </a>
+                                                        </li>
+                                                        <li class="nav-item">
+                                                            <a class="nav-link" id="manual-tab" data-toggle="tab" href="#manualInput" role="tab">
+                                                                <i class="fa fa-keyboard-o"></i> Qo'lda Kiritish
+                                                            </a>
+                                                        </li>
+                                                    </ul>
 
-                                                        <div class="alert alert-info mt-3">
-                                                            <h5><i class="fa fa-info-circle"></i> ZIP Fayl Strukturasi:</h5>
-                                                            <pre>testcases.zip
-                                                                ├── 1.in
-                                                                ├── 1.out
-                                                                ├── 2.in
-                                                                ├── 2.out
-                                                                ├── 3.in
-                                                                ├── 3.out
-                                                                └── ...
-                                                            </pre>
-                                                            <p class="mb-0">Har bir test uchun <code>.in</code> (input) va <code>.out</code> (output) fayllari bo'lishi kerak.</p>
-                                                        </div>
-                                                    </div>
+                                                    <!-- Tab Content -->
+                                                    <div class="tab-content" id="uploadTabContent">
+                                                        <!-- ZIP Upload Tab -->
+                                                        <div class="tab-pane fade show active" id="zipUpload" role="tabpanel">
+                                                            <div class="row">
+                                                                <div class="col-md-8">
+                                                                    <div class="upload-section">
+                                                                        <h4>📦 Test Case'larni Yuklash</h4>
+                                                                        <p class="text-muted">Test fayllarini ZIP arxivi sifatida yuklang</p>
+                                                                        
+                                                                        <div class="file-upload-wrapper">
+                                                                            <input type="file" id="testcases_zip" name="testcases_zip" 
+                                                                                accept=".zip" onchange="handleFileSelect(event)">
+                                                                            <label for="testcases_zip" class="file-upload-label">
+                                                                                <i class="fa fa-cloud-upload"></i>
+                                                                                <span id="file-name">ZIP faylni tanlang yoki bu yerga tashlang</span>
+                                                                            </label>
+                                                                        </div>
 
-                                                    <div id="file-preview" class="file-preview" style="display: none;">
-                                                        <h5>Yuklangan Fayl:</h5>
-                                                        <div class="file-info">
-                                                            <i class="fa fa-file-archive-o"></i>
-                                                            <div class="file-details">
-                                                                <span id="preview-name"></span>
-                                                                <span id="preview-size"></span>
+                                                                        <div class="alert alert-info mt-3">
+                                                                            <h5><i class="fa fa-info-circle"></i> ZIP Fayl Strukturasi:</h5>
+                                                                            <pre>testcases.zip
+                                        ├── 1.in
+                                        ├── 1.out
+                                        ├── 2.in
+                                        ├── 2.out
+                                        ├── 3.in
+                                        ├── 3.out
+                                        └── ...</pre>
+                                                                            <p class="mb-0">Har bir test uchun <code>.in</code> (input) va <code>.out</code> (output) fayllari bo'lishi kerak.</p>
+                                                                        </div>
+                                                                    </div>
+
+                                                                    <div id="file-preview" class="file-preview" style="display: none;">
+                                                                        <h5>Yuklangan Fayl:</h5>
+                                                                        <div class="file-info">
+                                                                            <i class="fa fa-file-archive-o"></i>
+                                                                            <div class="file-details">
+                                                                                <span id="preview-name"></span>
+                                                                                <span id="preview-size"></span>
+                                                                            </div>
+                                                                            <button type="button" class="btn btn-sm btn-danger" onclick="removeFile()">
+                                                                                <i class="fa fa-trash"></i>
+                                                                            </button>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
                                                             </div>
-                                                            <button type="button" class="btn btn-sm btn-danger" onclick="removeFile()">
-                                                                <i class="fa fa-trash"></i>
-                                                            </button>
                                                         </div>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <div class="info-box">
-                                                        <h5>📋 Test Case Qoidalari</h5>
-                                                        <ul>
-                                                            <li>Kamida 3 ta test bo'lishi kerak</li>
-                                                            <li>Maksimal 100 ta test</li>
-                                                            <li>Har bir fayl 1MB dan oshmasligi kerak</li>
-                                                            <li>Fayllar nomlanishi: 1.in, 1.out, 2.in, 2.out...</li>
-                                                            <li>Input va output juftligi to'liq bo'lishi shart</li>
-                                                        </ul>
+
+                                                        <!-- Manual Input Tab -->
+                                                        <div class="tab-pane fade" id="manualInput" role="tabpanel">
+                                                            <div class="row">
+                                                                <div class="col-md-12">
+                                                                    <div class="manual-input-section">
+                                                                        <h4>✍️ Test Case'larni Qo'lda Kiritish</h4>
+                                                                        <p class="text-muted">Har bir test case uchun kirish va chiqish qiymatlarini kiriting</p>
+                                                                        
+                                                                        <div id="testCasesContainer">
+                                                                            <!-- First test case (default) -->
+                                                                            <div class="test-case-item" data-index="1">
+                                                                                <div class="test-case-header">
+                                                                                    <h5>Test Case #1</h5>
+                                                                                    <button type="button" class="btn btn-sm btn-danger" onclick="removeTestCase(1)" style="display: none;">
+                                                                                        <i class="fa fa-trash"></i> O'chirish
+                                                                                    </button>
+                                                                                </div>
+                                                                                <div class="row">
+                                                                                    <div class="col-md-6">
+                                                                                        <div class="form-group">
+                                                                                            <label>Kirish Qiymati (Input)</label>
+                                                                                            <textarea class="form-control manual-input" name="manual_input[]" 
+                                                                                                rows="5" placeholder="Test uchun kirish qiymatini kiriting"></textarea>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div class="col-md-6">
+                                                                                        <div class="form-group">
+                                                                                            <label>Chiqish Qiymati (Output)</label>
+                                                                                            <textarea class="form-control manual-output" name="manual_output[]" 
+                                                                                                rows="5" placeholder="Kutilayotgan chiqish qiymatini kiriting"></textarea>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+
+                                                                        <div class="text-center mt-3">
+                                                                            <button type="button" class="btn btn-primary" onclick="addTestCase()">
+                                                                                <i class="fa fa-plus"></i> Yangi Test Case Qo'shish
+                                                                            </button>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="form-group text-right">
+
+                                            <div class="form-group text-right mt-4">
                                                 <button type="button" class="btn btn-secondary btn-lg" onclick="prevStep()">
                                                     <i class="fa fa-arrow-left"></i> Orqaga
                                                 </button>
@@ -300,8 +349,74 @@
             const i = Math.floor(Math.log(bytes) / Math.log(k));
             return Math.round(bytes / Math.pow(k, i) * 100) / 100 + ' ' + sizes[i];
         }
+        let testCaseCounter = 1;
 
-        document.getElementById('addProblemForm').addEventListener('submit', function(e) {
+        function addTestCase() {
+            testCaseCounter++;
+            
+            const container = document.getElementById('testCasesContainer');
+            const newTestCase = document.createElement('div');
+            newTestCase.className = 'test-case-item';
+            newTestCase.setAttribute('data-index', testCaseCounter);
+            
+            newTestCase.innerHTML = `
+                <div class="test-case-header">
+                    <h5>Test Case #${testCaseCounter}</h5>
+                    <button type="button" class="btn btn-sm btn-danger" onclick="removeTestCase(${testCaseCounter})">
+                        <i class="fa fa-trash"></i> O'chirish
+                    </button>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Kirish Qiymati (Input)</label>
+                            <textarea class="form-control manual-input" name="manual_input[]" 
+                                rows="5" placeholder="Test uchun kirish qiymatini kiriting"></textarea>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Chiqish Qiymati (Output)</label>
+                            <textarea class="form-control manual-output" name="manual_output[]" 
+                                rows="5" placeholder="Kutilayotgan chiqish qiymatini kiriting"></textarea>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            container.appendChild(newTestCase);
+            
+            // Scroll to new test case
+            newTestCase.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            
+            // Show delete button for first test case if more than one exists
+            updateDeleteButtons();
+        }
+
+        function removeTestCase(index) {
+            const testCase = document.querySelector(`.test-case-item[data-index="${index}"]`);
+            if (testCase) {
+                testCase.style.opacity = '0';
+                testCase.style.transform = 'scale(0.9)';
+                setTimeout(() => {
+                    testCase.remove();
+                    updateDeleteButtons();
+                }, 300);
+            }
+        }
+
+        function updateDeleteButtons() {
+            const testCases = document.querySelectorAll('.test-case-item');
+            testCases.forEach((item, index) => {
+                const deleteBtn = item.querySelector('.btn-danger');
+                if (testCases.length > 1) {
+                    deleteBtn.style.display = 'inline-block';
+                } else {
+                    deleteBtn.style.display = 'none';
+                }
+            });
+        }
+                document.getElementById('addProblemForm').addEventListener('submit', function(e) {
             e.preventDefault();
             
             const submitBtn = document.getElementById('submitBtn');
@@ -310,6 +425,10 @@
             
             const formData = new FormData(this);
             formData.append('author_id', <?= $_SESSION['id'] ?>);
+            
+            // Determine which method is being used
+            const activeTab = document.querySelector('.tab-pane.active').id;
+            formData.append('upload_method', activeTab === 'zipUpload' ? 'zip' : 'manual');
             
             fetch('process_add_problem.php', {
                 method: 'POST',
@@ -344,7 +463,15 @@
             })
             .catch(error => {
                 console.error('Error:', error);
-                alert('❌ Xatolik yuz berdi!');
+                Swal.fire({
+                    toast: true,
+                    icon: 'error',
+                    title: '❌ Xatolik yuz berdi!',
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 2000,
+                    timerProgressBar: true
+                });
                 submitBtn.disabled = false;
                 submitBtn.innerHTML = '<i class="fa fa-check"></i> Masalani Saqlash';
             });
@@ -388,6 +515,7 @@
             fileInput.files = files;
             handleFileSelect({ target: { files: files } });
         }
+    
     </script>
    </body>
 </html>

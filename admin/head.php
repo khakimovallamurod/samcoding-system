@@ -14,8 +14,15 @@
     <!-- bootstrap css -->
     <link rel="stylesheet" href="../css/bootstrap.min.css" />
     <!-- site css -->
-    
-    <link rel="stylesheet" href="../js/semantic.min.css" />
+    <!-- jQuery (birinchi) -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- Bootstrap JS -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <!-- SweetAlert2 (agar ishlatsangiz) -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
     <link rel="stylesheet" href="../style.css" />
     <link rel="stylesheet" href="../css/dashboard_style.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">

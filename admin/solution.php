@@ -157,7 +157,7 @@
                                                     </div>
                                                 </div>
 
-                                                <div class="submit-section" style="width:80%">
+                                                <div class="submit-section">
                                                     <button class="btn-submit" type="submit" id="submitBtn">Yechimni yuborish</button>
                                                 </div>
                                             </form>                                       

@@ -68,6 +68,7 @@
                                                     <th>✔️</th>
                                                     <th>❌</th>
                                                     <th>Reyting</th>
+                                                    <th>Test Cases</th>
                                                     <th>Update</th>
                                                     <th>Delete</th>
                                                 </tr>
@@ -84,6 +85,11 @@
                                                     <td><span class="status-correct">5</span></td>
                                                     <td><span class="status-wrong">1343</span></td>
                                                     <td><strong>0.4</strong></td>
+                                                    <td>
+                                                        <a href="test_views.php?id=<?= (int)$problem['id'] ?>" class="btn btn-sm btn-info">
+                                                            <i class="fa fa-eye"></i> Testni Ko'rish
+                                                        </a>
+                                                    </td>
                                                     <td>
                                                         <a href="update.php?id=<?= (int)$problem['id'] ?>" class="btn btn-sm btn-warning">
                                                             <i class="fa fa-edit"></i> Tahrirlash
