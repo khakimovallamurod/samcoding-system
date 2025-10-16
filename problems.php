@@ -1,10 +1,6 @@
 <?php
    include_once 'config.php';
-   session_start();
-   if (!isset($_SESSION['id']) || empty($_SESSION['id'])) {
-      header("Location: auth/login.php");
-      exit;
-   }
+   
    $db = new Database();
    $problems = $db->get_data_by_table_all("problems");
 ?>

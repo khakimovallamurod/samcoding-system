@@ -1,11 +1,4 @@
-<?php
-   session_start();
-   if (!isset($_SESSION['id']) || empty($_SESSION['id'])) {
-      header("Location: auth/login.php");
-      exit;
-   }
 
-?>
 <html lang="en">
    <?php include_once 'includes/head.php'?>
    <body class="dashboard dashboard_1">

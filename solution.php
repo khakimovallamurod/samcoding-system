@@ -1,7 +1,10 @@
 <?php
     include_once 'config.php';
     session_start();
-    
+    if (!isset($_SESSION['id']) || empty($_SESSION['id']) ) {
+        header("Location: auth/login.php");
+        exit;
+    }
    $user_id = $_SESSION['id'];
    $problem_id = intval($_GET['id']);
    $db = new Database();

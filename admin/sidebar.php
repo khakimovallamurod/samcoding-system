@@ -101,7 +101,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
             <a href="settings.php"><i class="fa fa-cog"></i>Sozlamalar</a>
         </li>
         <li>
-            <a href="auth/logout.php"><i class="fa fa-sign-out"></i>Chiqish</a>
+            <a href="../auth/logout.php"><i class="fa fa-sign-out"></i>Chiqish</a>
         </li>
     </ul>
 </nav>

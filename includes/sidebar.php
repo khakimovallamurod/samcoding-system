@@ -66,13 +66,7 @@
     color: #fff;
 }
 </style>
-<?php
-    session_start();
-    if (!isset($_SESSION['id']) || empty($_SESSION['id'])) {
-        header("Location: auth/login.php");
-        exit;
-    }
-?>
+
 <?php 
 $current_page = basename($_SERVER['PHP_SELF']); 
 ?>
