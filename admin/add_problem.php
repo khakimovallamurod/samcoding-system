@@ -101,7 +101,14 @@
                                                 <div class="col-md-4">
                                                     <div class="form-group">
                                                         <label for="difficulty">Qiyinlik Darajasi <span class="required">*</span></label>
-                                                        <select class="form-control" id="difficulty" name="difficulty" required>
+                                                         <select class="form-control" id="difficulty" name="difficulty" required
+                                                            style="
+                                                                width: 100%;
+                                                                padding: 0.5rem 0.75rem;
+                                                                border: 1px solid #ccc;
+                                                                border-radius: 0.375rem;
+                                                                appearance: none;
+                                                            ">
                                                             <option value="" disabled selected>Qiyinlik darajasini tanlang</option>
                                                             <option value="beginner">Beginner</option>
                                                             <option value="easy">Easy</option>
@@ -112,7 +119,14 @@
                                                     </div>
                                                     <div class="form-group">
                                                         <label for="category">Kategoriya <span class="required">*</span></label>
-                                                        <select class="form-control" id="category" name="category" required>
+                                                        <select class="form-control" id="category" name="category" required
+                                                            style="
+                                                                width: 100%;
+                                                                padding: 0.5rem 0.75rem;
+                                                                border: 1px solid #ccc;
+                                                                border-radius: 0.375rem;
+                                                                appearance: none;
+                                                            ">
                                                             <option value="" disabled selected>Kategoriyani tanlang</option>
                                                             <option value="array">Array</option>
                                                             <option value="string">String</option>
