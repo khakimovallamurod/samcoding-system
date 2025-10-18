@@ -101,7 +101,7 @@
                                                 <div class="col-md-4">
                                                     <div class="form-group">
                                                         <label for="difficulty">Qiyinlik Darajasi <span class="required">*</span></label>
-                                                         <select class="form-control" id="difficulty" name="difficulty" required
+                                                        <select class="form-control" id="difficulty" name="difficulty" required
                                                             style="
                                                                 width: 100%;
                                                                 padding: 0.5rem 0.75rem;

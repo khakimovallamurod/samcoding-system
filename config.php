@@ -114,7 +114,7 @@ class Database{
         $fetch = mysqli_fetch_assoc($this->query($sql));
         return $fetch;
     }
-    public function get_attempts_by_user($user_id){
+    public function get_attempts_by_user($user_id, $problem_id){
        $sql = "SELECT 
             a.id AS attempt_id,
             a.problem_id,
@@ -127,7 +127,7 @@ class Database{
             a.created_at
         FROM attempts a
         JOIN problems p ON p.id = a.problem_id
-        WHERE a.user_id = " . intval($user_id) . " 
+        WHERE a.user_id = " . intval($user_id) . " and a.problem_id = $problem_id 
         ORDER BY attempt_id DESC";
         $result = $this -> query($sql);
         $data = [];

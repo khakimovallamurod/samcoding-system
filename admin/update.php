@@ -123,14 +123,46 @@ if (!$problem) {
                                                 <div class="col-md-4">
                                                     <div class="form-group">
                                                         <label for="difficulty">Qiyinlik Darajasi <span class="required">*</span></label>
-                                                        <input type="number" class="form-control" id="difficulty" name="difficulty" 
-                                                            value="<?= $problem['difficulty'] ?>" required>
+                                                        <select class="form-control" id="difficulty" name="difficulty" required
+                                                            style="
+                                                                width: 100%;
+                                                                padding: 0.5rem 0.75rem;
+                                                                border: 1px solid #ccc;
+                                                                border-radius: 0.375rem;
+                                                                appearance: none;
+                                                            ">
+                                                            <option value="" disabled selected>Qiyinlik darajasini tanlang</option>
+                                                            <option value="beginner">Beginner</option>
+                                                            <option value="easy">Easy</option>
+                                                            <option value="medium">Medium</option>
+                                                            <option value="hard">Hard</option>
+                                                            <option value="expert">Expert</option>
+                                                        </select>
                                                     </div>
 
                                                     <div class="form-group">
                                                         <label for="category">Kategoriya <span class="required">*</span></label>
-                                                        <input type="text" class="form-control" id="category" name="category"
-                                                            value="<?= htmlspecialchars($problem['category']) ?>" required>
+                                                        <select class="form-control" id="category" name="category" required
+                                                            style="
+                                                                width: 100%;
+                                                                padding: 0.5rem 0.75rem;
+                                                                border: 1px solid #ccc;
+                                                                border-radius: 0.375rem;
+                                                                appearance: none;
+                                                            ">
+                                                            <option value="" disabled selected>Kategoriyani tanlang</option>
+                                                            <option value="array">Array</option>
+                                                            <option value="string">String</option>
+                                                            <option value="math">Math</option>
+                                                            <option value="dp">Dynamic Programming</option>
+                                                            <option value="graph">Graph</option>
+                                                            <option value="tree">Tree</option>
+                                                            <option value="list">List</option>
+                                                            <option value="stack">Stack</option>
+                                                            <option value="queue">Queue</option>
+                                                            <option value="sorting">Sorting</option>
+                                                            <option value="ga">Graph Algorithms</option>
+                                                        </select>
                                                     </div>
 
                                                     <div class="form-group">
