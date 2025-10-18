@@ -15,7 +15,7 @@
     $input_format = trim($_POST['input_format'] ?? '');
     $output_format = trim($_POST['output_format'] ?? '');
     $constraints = trim($_POST['constraints'] ?? '');
-    $difficulty = intval($_POST['difficulty']);
+    $difficulty = trim($_POST['difficulty']);
     $category = trim($_POST['category'] ?? '');
     $izoh = trim($_POST['izoh']);
     $time_limit = intval($_POST['time_limit']);

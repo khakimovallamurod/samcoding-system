@@ -63,11 +63,9 @@
                                                     <th>Nomi</th>
                                                     <th>Qiyinchiligi</th>
                                                     <th>Toifasi</th>
-                                                    <th>⭐</th>
                                                     <th>👥</th>
                                                     <th>✔️</th>
                                                     <th>❌</th>
-                                                    <th>Reyting</th>
                                                     <th>Test Cases</th>
                                                     <th>Update</th>
                                                     <th>Delete</th>
@@ -78,13 +76,11 @@
                                                 <tr>
                                                     <td><strong><a href="solution.php?id=<?= (int)$problem['id'] ?>"><?= str_pad($problem['id'], 4, '0', STR_PAD_LEFT) ?></a></strong></td>
                                                     <td><strong><a href="solution.php?id=<?= (int)$problem['id'] ?>"><?= htmlspecialchars($problem['title']) ?></a></strong></td>
-                                                    <td><span class="difficulty-badge difficulty-easy"><?=$problem['difficulty']?>%</span></td>
+                                                    <td><span class="difficulty-badge difficulty-easy"><?=$problem['difficulty']?></span></td>
                                                     <td><span class="category-badge category-interactive"><?=$problem['category']?></span></td>
-                                                    <td><span class="rating-stars">★★★<span style="color:#ddd;">★★</span></span></td>
                                                     <td><span class="status-participants">2</span></td>
                                                     <td><span class="status-correct">5</span></td>
                                                     <td><span class="status-wrong">1343</span></td>
-                                                    <td><strong>0.4</strong></td>
                                                     <td>
                                                         <a href="test_views.php?id=<?= (int)$problem['id'] ?>" class="btn btn-sm btn-info">
                                                             <i class="fa fa-eye"></i> Testni Ko'rish
