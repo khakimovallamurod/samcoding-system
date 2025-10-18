@@ -1,0 +1,276 @@
+.podium-card {
+   background: #ffffff;
+   border-radius: 16px;
+   padding: 30px 20px;
+   text-align: center;
+   position: relative;
+   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+   transition: transform 0.3s ease;
+   margin-top: 20px;
+}
+
+.podium-card:hover {
+   transform: translateY(-5px);
+}
+
+.podium-gold {
+   border: 3px solid #ffd700;
+   margin-top: 0;
+}
+
+.podium-silver {
+   border: 3px solid #c0c0c0;
+}
+
+.podium-bronze {
+   border: 3px solid #cd7f32;
+}
+
+.podium-crown {
+   font-size: 40px;
+   position: absolute;
+   top: -20px;
+   left: 50%;
+   transform: translateX(-50%);
+}
+
+.podium-number {
+   display: inline-block;
+   width: 50px;
+   height: 50px;
+   line-height: 50px;
+   border-radius: 50%;
+   font-size: 24px;
+   font-weight: bold;
+   color: white;
+   margin-bottom: 15px;
+}
+
+.podium-gold .podium-number {
+   background: #ffd700;
+}
+
+.podium-silver .podium-number {
+   background: #c0c0c0;
+}
+
+.podium-bronze .podium-number {
+   background: #cd7f32;
+}
+
+.podium-avatar {
+   width: 100px;
+   height: 100px;
+   margin: 0 auto 15px;
+   border-radius: 50%;
+   overflow: hidden;
+   border: 4px solid #f8f9fa;
+}
+
+.podium-avatar img {
+   width: 100%;
+   height: 100%;
+   object-fit: cover;
+}
+
+.podium-name {
+   font-size: 20px;
+   font-weight: 700;
+   color: #2c3e50;
+   margin-bottom: 10px;
+}
+
+.podium-points {
+   font-size: 24px;
+   font-weight: 700;
+   color: #6366f1;
+   margin-bottom: 5px;
+}
+
+.podium-solved {
+   font-size: 14px;
+   color: #6c757d;
+}
+
+/* Filter qismi */
+.filter-section {
+   background: #f8f9fa;
+   padding: 20px;
+   border-radius: 12px;
+   margin-bottom: 20px;
+}
+
+.filter-section label {
+   display: block;
+   font-weight: 600;
+   color: #495057;
+   margin-bottom: 8px;
+   font-size: 14px;
+}
+
+.filter-input,
+.filter-select {
+   width: 100%;
+   padding: 10px 14px;
+   border: 2px solid #e9ecef;
+   border-radius: 8px;
+   font-size: 14px;
+   transition: all 0.2s ease;
+   background: white;
+}
+
+.filter-input:focus,
+.filter-select:focus {
+   border-color: #6366f1;
+   outline: none;
+   box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+}
+
+.filter-button {
+   width: 100%;
+   padding: 10px 14px;
+   background: #6366f1;
+   color: white;
+   border: none;
+   border-radius: 8px;
+   font-size: 14px;
+   font-weight: 600;
+   cursor: pointer;
+   transition: all 0.2s ease;
+   margin-top: 8px;
+}
+
+.filter-button:hover {
+   background: #4f46e5;
+   transform: translateY(-2px);
+   box-shadow: 0 4px 8px rgba(99, 102, 241, 0.3);
+}
+
+/* Jadval stillari */
+#ratingTable {
+   margin-top: 15px;
+}
+
+#ratingTable thead {
+   background: #f8f9fa !important;
+}
+
+#ratingTable thead th {
+   background: #f8f9fa !important;
+   color: #495057 !important;
+   font-weight: 600;
+   text-transform: uppercase;
+   font-size: 13px;
+   padding: 16px;
+   border: none;
+}
+
+.rank-row {
+   transition: background-color 0.2s ease;
+   background: white !important;
+}
+
+.rank-row:hover {
+   background: #f4f8fa !important;
+}
+
+.table-hover tbody tr:hover {
+   background: whitesmoke !important;
+   color: black;
+}
+
+.rank-badge {
+   display: inline-block;
+   width: 35px;
+   height: 35px;
+   line-height: 35px;
+   border-radius: 8px;
+   background: #e9ecef;
+   color: #495057;
+   font-weight: 700;
+   text-align: center;
+}
+
+.rank-badge.rank-1 {
+   background: #ffd700;
+   color: white;
+}
+
+.rank-badge.rank-2 {
+   background: #c0c0c0;
+   color: white;
+}
+
+.rank-badge.rank-3 {
+   background: #cd7f32;
+   color: white;
+}
+
+.user-info {
+   display: flex;
+   align-items: center;
+   gap: 12px;
+}
+
+.user-avatar-small {
+   width: 40px;
+   height: 40px;
+   border-radius: 50%;
+   object-fit: cover;
+}
+
+.points-badge {
+   display: inline-block;
+   padding: 6px 14px;
+   background: #e3f2fd;
+   color: #1565c0;
+   border-radius: 8px;
+   font-weight: 700;
+}
+
+.solved-badge {
+   display: inline-block;
+   padding: 6px 14px;
+   background: #f3e5f5;
+   color: #7b1fa2;
+   border-radius: 8px;
+   font-weight: 700;
+}
+
+.percent-badge {
+   display: inline-block;
+   padding: 6px 14px;
+   border-radius: 8px;
+   font-weight: 700;
+}
+
+.percent-high {
+   background: #d4edda;
+   color: #155724;
+}
+
+.percent-medium {
+   background: #fff3cd;
+   color: #856404;
+}
+
+.percent-low {
+   background: #f8d7da;
+   color: #721c24;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+   .podium-card {
+      margin-top: 15px;
+   }
+   
+   .podium-gold {
+      margin-top: 15px;
+   }
+   
+   .filter-section .col-md-2,
+   .filter-section .col-md-3 {
+      margin-bottom: 15px;
+   }
+}

@@ -1,35 +1,106 @@
-/* Custom hover color - Blue instead of green */
+/* Umumiy konteyner */
+.white_shd {
+    background: #ffffff;
+    border-radius: 12px;
+    margin-top: 30px;
+    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+}
+
+/* Sarlavha qismi */
+.graph_head {
+    background: #6366f1;
+    padding: 24px 30px;
+    border-bottom: none;
+}
+
+.graph_head h2 {
+    color: #ffffff;
+    font-size: 28px;
+    font-weight: 700;
+    margin: 0;
+    letter-spacing: -0.5px;
+}
+
+/* Jadval qismi */
+.table_section {
+    padding: 20px 30px 30px;
+}
+
+/* Jadval */
+#problemsTable {
+    margin: 0;
+    border-collapse: separate;
+    border-spacing: 0;
+    width: 100%;
+}
+
+#problemsTable thead {
+    background: #f8f9fa !important;
+}
+
+#problemsTable thead th {
+    padding: 18px 16px;
+    font-weight: 600;
+    font-size: 14px;
+    color: #495057 !important;
+    border: none;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+    background: #f8f9fa !important;
+}
+
+#problemsTable tbody tr {
+    transition: background-color 0.2s ease;
+    border-bottom: 1px solid #f1f3f5;
+    background: #ffffff !important;
+}
+
+#problemsTable tbody tr:hover {
+    background: #e3f2fd !important;
+}
+
+#problemsTable tbody td {
+    padding: 16px;
+    vertical-align: middle;
+    font-size: 14px;
+    color: #495057;
+    border: none;
+}
+
+/* Table striped hover fix */
+.table-striped tbody tr:nth-of-type(odd):hover {
+    background: #e3f2fd !important;
+}
+
 .table tbody tr:hover {
     background-color: #e3f2fd !important;
-    transition: all 0.3s ease;
+    transition: background-color 0.2s ease;
 }
 
-.table-striped tbody tr:nth-of-type(odd):hover {
-    background-color: #e3f2fd !important;
-}
-
-/* DataTables search input styling */
-.dataTables_filter input {
-    border: 2px solid #e9ecef;
-    border-radius: 6px;
-    padding: 6px 12px;
-    transition: all 0.3s;
-}
-
-.dataTables_filter input:focus {
-    border-color: #007bff;
-    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
-}
-
-/* Difficulty badges */
-.difficulty-badge {
-    padding: 3px 8px;
-    border-radius: 12px;
-    font-size: 0.8rem;
+/* Linklar */
+#problemsTable a {
+    color: #1565c0;
+    text-decoration: none;
     font-weight: 600;
+    transition: color 0.2s ease;
+}
+
+#problemsTable a:hover {
+    color: #0d47a1;
+    text-decoration: underline;
+}
+
+/* Qiyinchilik badge */
+.difficulty-badge {
     display: inline-block;
-    min-width: 50px;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 600;
     text-align: center;
+    min-width: 60px;
 }
 
 .difficulty-easy {
@@ -47,12 +118,13 @@
     color: #721c24;
 }
 
-/* Category badges */
+/* Toifa badge */
 .category-badge {
-    padding: 3px 8px;
-    border-radius: 10px;
-    font-size: 0.75rem;
-    font-weight: 500;
+    display: inline-block;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.3px;
 }
@@ -73,46 +145,110 @@
 }
 
 .category-graph {
-    background: #e8f5e8;
-    color: #2e7d32;
+    background: #fce4ec;
+    color: #c2185b;
 }
 
-/* Rating stars */
+/* Yulduzlar */
 .rating-stars {
+    font-size: 16px;
     color: #ffc107;
-    font-size: 0.9rem;
 }
 
-/* Status colors */
-.status-correct {
-    color: #28a745;
-    font-weight: 600;
-}
-
+/* Status raqamlari */
+.status-participants,
+.status-correct,
 .status-wrong {
-    color: #dc3545;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 50px;
+    padding: 6px 12px;
+    border-radius: 8px;
     font-weight: 600;
+    font-size: 14px;
 }
 
 .status-participants {
+    background: #e9ecef;
     color: #6c757d;
-    font-weight: 600;
 }
 
-/* DataTables pagination styling */
-.dataTables_paginate .paginate_button:hover {
+.status-correct {
+    background: #d4edda;
+    color: #28a745;
+}
+
+.status-wrong {
+    background: #f8d7da;
+    color: #dc3545;
+}
+
+/* Reyting */
+#problemsTable tbody td strong:last-child {
+    display: inline-block;
+    padding: 6px 12px;
+    background: #fff3cd;
+    border-radius: 8px;
+    color: #856404;
+    font-weight: 700;
+}
+
+/* DataTables qo'shimcha elementlari */
+.dataTables_wrapper .dataTables_length,
+.dataTables_wrapper .dataTables_filter {
+    padding: 10px 0;
+}
+
+.dataTables_wrapper .dataTables_length select {
+    padding: 6px 12px;
+    border: 2px solid #e9ecef;
+    border-radius: 6px;
+    margin: 0 8px;
+    transition: border-color 0.2s ease;
+}
+
+.dataTables_wrapper .dataTables_length select:focus {
+    border-color: #1565c0;
+    outline: none;
+}
+
+.dataTables_wrapper .dataTables_filter input {
+    padding: 8px 16px;
+    border: 2px solid #e9ecef;
+    border-radius: 6px;
+    margin-left: 8px;
+    transition: all 0.2s ease;
+}
+
+.dataTables_wrapper .dataTables_filter input:focus {
+    border-color: #1565c0;
+    outline: none;
+    box-shadow: 0 0 0 0.2rem rgba(21, 101, 192, 0.25);
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button {
+    padding: 6px 12px;
+    margin: 0 2px;
+    border-radius: 6px;
+    border: 1px solid transparent;
+    background: #f8f9fa;
+    transition: all 0.2s ease;
+}
+
+.dataTables_wrapper .dataTables_paginate .paginate_button:hover {
     background: #e3f2fd !important;
-    border-color: #007bff !important;
-    color: #007bff !important;
+    border-color: #1565c0 !important;
+    color: #1565c0 !important;
 }
 
-.dataTables_paginate .paginate_button.current {
-    background: #007bff !important;
-    border-color: #007bff !important;
+.dataTables_wrapper .dataTables_paginate .paginate_button.current {
+    background: #1565c0 !important;
+    border-color: #1565c0 !important;
     color: white !important;
 }
 
-/* Filter dropdowns */
+/* Filter dropdown */
 .filter-dropdown {
     margin-left: 10px;
     padding: 4px 8px;
@@ -121,12 +257,24 @@
     font-size: 0.9rem;
 }
 
-/* Table responsiveness */
+/* Responsive */
 @media (max-width: 768px) {
-    .table thead th,
-    .table tbody td {
-        padding: 8px 4px;
-        font-size: 0.8rem;
+    .table_section {
+        padding: 15px;
+    }
+    
+    .graph_head {
+        padding: 20px 15px;
+    }
+    
+    .graph_head h2 {
+        font-size: 22px;
+    }
+    
+    #problemsTable thead th,
+    #problemsTable tbody td {
+        padding: 12px 8px;
+        font-size: 13px;
     }
     
     .btn-sm {

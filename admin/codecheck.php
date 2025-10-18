@@ -92,7 +92,33 @@
         "memory"  => $result['memory']                
     ];
     $insert  = $db->insert("attempts", $arr);
+    $problem = $db->get_data_by_table('problems', ['id'=>$problem_id]);
+    $user_reyting = $db->get_data_by_table('reyting', ['user_id'=>$user_id]);
     if ($insert!=0) {
+        $score = intval($problem['difficulty'])*5;
+        $reyting_arr = [
+            "user_id" => $user_id,       
+            "score" => $score,             
+            "attempted" => 1,           
+            "solved" => 0,           
+        ];
+        if ($result['status'] == "Accept"){
+            $reyting_arr['solved'] += 1;
+        }
+        if ($user_reyting == NULL){
+            $insert_reyting  = $db->insert("reyting", $reyting_arr);
+        }else{
+            $attempted = $user_reyting['attempted'] += 1;
+            $solved = $user_reyting['solved'] += $reyting_arr['solved'];
+            $db->update(
+                'reyting', 
+                [
+                    'solved'=>$solved,
+                    'attempted'=>$attempted
+                ], 
+                "user_id = $user_id"
+            );
+        }
         echo json_encode(['success' => true, 'message' => '✅ Dasturingiz yuborildi!']);
     } else {
         echo json_encode(['success' => false, 'message' => '❌ Yuborishda xatolik!']);

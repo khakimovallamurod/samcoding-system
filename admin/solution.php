@@ -5,7 +5,7 @@
    $problem_id = intval($_GET['id']);
    $db = new Database();
    $solutions = $db->get_problem_by_id("problems",$problem_id);
-   $attempts = $db->get_attempts_by_user($user_id);
+   $attempts = $db->get_attempts_by_user($user_id, $problem_id);
 ?>
 
 <html lang="en">
