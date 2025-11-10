@@ -1,9 +1,6 @@
 <?php
 session_start();
-include_once '../config.php';
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
+include_once '../../config.php';
 
 header('Content-Type: application/json');
 
@@ -44,7 +41,7 @@ $data = [
     'memory_limit' => $memory_limit,
     'update_at' => date('Y-m-d H:i:s')
 ];
-$result = $db->update('problems', $data, "id = '$problem_id'");
+$result = $db->update('contest_problems', $data, "id = '$problem_id'");
 if (!$result) {
     echo json_encode(['success' => false, 'message' => 'Masalani yangilashda xatolik!']);
     exit;
@@ -55,7 +52,7 @@ if (isset($_FILES['testcases_zip']) && $_FILES['testcases_zip']['error'] === UPL
     $zipFile = $_FILES['testcases_zip']['tmp_name'];
 
     if ($zip->open($zipFile) === TRUE) {
-        $db->delete('tests', "problem_id = '$problem_id'");
+        $db->delete('contest_tests', "cn_problem_id = '$problem_id'");
 
         $inputs = [];
         $outputs = [];
@@ -75,8 +72,8 @@ if (isset($_FILES['testcases_zip']) && $_FILES['testcases_zip']['error'] === UPL
         $testCount = 0;
         foreach ($inputs as $testNum => $input) {
             if (isset($outputs[$testNum])) {
-                $insertResult = $db->insert('tests', [
-                    'problem_id' => $problem_id,
+                $insertResult = $db->insert('contest_tests', [
+                    'cn_problem_id' => $problem_id,
                     'input' => $input,
                     'output' => $outputs[$testNum]
                 ]);

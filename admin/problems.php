@@ -161,23 +161,23 @@
             }
 
             document.getElementById('confirmDeleteBtn').addEventListener('click', function() {
-            if (deleteId) {
-                fetch('delete_problem.php?id=' + deleteId)
-                    .then(response => response.json())
-                    .then(data => {
-                        $('#deleteModal').modal('hide');
-                        if (data.success) {
-                            toastr.success(data.message, "Muvaffaqiyat ✅");
-                            setTimeout(() => location.reload(), 2000); 
-                        } else {
-                            toastr.error(data.message, "Xatolik ❌");
-                        }
-                    })
-                    .catch(error => {
-                        toastr.error('Xatolik: ' + error.message, "Server bilan muammo");
-                    });
-            }
-        });     
+                if (deleteId) {
+                    fetch('delete/delete_problem.php?id=' + deleteId)
+                        .then(response => response.json())
+                        .then(data => {
+                            $('#deleteModal').modal('hide');
+                            if (data.success) {
+                                toastr.success(data.message, "Muvaffaqiyat ✅");
+                                setTimeout(() => location.reload(), 2000); 
+                            } else {
+                                toastr.error(data.message, "Xatolik ❌");
+                            }
+                        })
+                        .catch(error => {
+                            toastr.error('Xatolik: ' + error.message, "Server bilan muammo");
+                        });
+                }
+            });     
 
       </script>
       <script>
@@ -350,7 +350,6 @@
                     return parseInt(a.replace(/\D/g, ''), 10) || 0;
                 }
             });
-            table.column(0).type('id');
         });
       </script>
    </body>

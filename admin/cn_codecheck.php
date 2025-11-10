@@ -1,9 +1,9 @@
 <?php
     include_once '../config.php';
     $db = new Database();
-    $user_id  = $_POST['user_id'];
-    $problem_id = $_POST['problem_id'];
-    $tests = $db->get_data_by_table_all('tests', "WHERE problem_id = '$problem_id'");
+    $user_id  = intval($_POST['user_id']);
+    $cn_problem_id = intval($_POST['problem_id']);
+    $tests = $db->get_data_by_table_all('contest_tests', "WHERE cn_problem_id = '$cn_problem_id'");
 
     function run_code($language, $code, $stdin) {
         $url = "http://api.sampc.uz/api/v2/execute";
@@ -27,7 +27,7 @@
         return json_decode($resp, true);
     }
 
-    function check_problem($problem_id, $language, $code, $tests) {
+    function check_problem($language, $code, $tests) {
         $test_count = 0;
         $last_runTime = 0;
         $last_memory = 0;
@@ -76,13 +76,14 @@
     }
     
     
-    $problem_id_str = str_pad($problem_id, 4, '0', STR_PAD_LEFT);
     $language = $_POST['language'];
+    $contest_id = intval($_POST['contest_id']);
     $code = $_POST['code'];
-    $result = check_problem($problem_id_str, $language, $code, $tests);
+    $result = check_problem($language, $code, $tests);
     $arr = [
         "user_id"      => $user_id,       
-        "problem_id"   => $problem_id,               
+        "problem_id"   => $cn_problem_id,               
+        "contest_id"   => $contest_id,               
         "language"     => $language,             
         "code"         => $code,
         "status"       => $result['status'],           
@@ -91,38 +92,48 @@
         "runTime"  => $result['runTime'],                   
         "memory"  => $result['memory']                
     ];
-    $insert  = $db->insert("attempts", $arr);
-    $problem = $db->get_data_by_table('problems', ['id'=>$problem_id]);
-    $user_reyting = $db->get_data_by_table('reyting', ['user_id'=>$user_id]);
+    $insert  = $db->insert("contest_attempts", $arr);
+    $problem = $db->get_data_by_table('contest_problems', ['id'=>$cn_problem_id]);
+    $user_reyting = $db->get_data_by_table('contest_reyting', ['user_id'=>$user_id, 'problem_id'=>$cn_problem_id]);
     if ($insert!=0) {
-        $score = intval($problem['difficulty'])*5;
+        $difficulty = $problem['difficulty'];
+        $score = 0;
+        switch ($difficulty) {
+            case 'beginner':$score = 100;break;
+            case 'easy':$score = 200;break;
+            case 'medium':$score = 300;break;
+            case 'hard':$score = 400;break;
+            case 'expert':$score = 500;break;
+            default:$score = 0;break;
+        }
         $reyting_arr = [
-            "user_id" => $user_id,       
-            "problem_id" => $problem_id,             
-            "score" => $score,
-            "attempted" => 1,
+            "user_id" => $user_id,
+            "problem_id" => $cn_problem_id,
+            "contest_id" => $contest_id,
+            "score" => $score,             
+            "attempted" => 1,           
             "solved" => 0,           
         ];
         if ($result['status'] == "Accept"){
             $reyting_arr['solved'] += 1;
         }
         if ($user_reyting == NULL){
-            $insert_reyting  = $db->insert("reyting", $reyting_arr);
+            $insert_reyting  = $db->insert("contest_reyting", $reyting_arr);
         }else{
+            $reyting_id = $user_reyting['id'];
             $attempted = $user_reyting['attempted'] += 1;
-            $solved = $user_reyting['solved'] += $reyting_arr['solved'];
+            $solved = max($reyting_arr['solved'], $user_reyting['solved']);
             $db->update(
-                'reyting', 
+                'contest_reyting', 
                 [
                     'solved'=>$solved,
                     'attempted'=>$attempted
                 ], 
-                "user_id = $user_id and problem_id=$problem_id"
+                "id = $reyting_id"
             );
         }
-        echo json_encode(['success' => true, 'message' => '✅ Dasturingiz yuborildi!']);
+        echo json_encode(['success' => true, 'message' => 'Dasturingiz yuborildi!']);
     } else {
-        echo json_encode(['success' => false, 'message' => '❌ Yuborishda xatolik!']);
+        echo json_encode(['success' => false, 'message' => 'Yuborishda xatolik!']);
     }
-
-
+?>

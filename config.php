@@ -2,7 +2,7 @@
 
 class Database{
     private $host = 'localhost';
-    private $db_name = 'samcoding';
+    private $db_name = 'code-arena2v';
     private $username = 'root';
     private $password = '';
     private $link;
@@ -92,7 +92,6 @@ class Database{
         if ($con != 'no'){
             $sql .= " WHERE ".$con;
         }
-
         return $this->query($sql);
     }
 
@@ -136,7 +135,32 @@ class Database{
         }
         return $data;
     }
+    public function get_contest_attempts_by_user($user_id, $problem_id, $contest_id){
+       $sql = "SELECT 
+            a.id AS attempt_id,
+            a.problem_id,
+            a.contest_id,
+            p.title AS problem_title,
+            a.language,
+            a.runTime,
+            a.memory,
+            a.status,
+            a.tests_passed,
+            a.created_at
+        FROM contest_attempts a
+        JOIN contest_problems p ON p.id = a.problem_id
+        WHERE a.user_id = " . intval($user_id) . " and a.problem_id = $problem_id and a.contest_id = $contest_id
+        ORDER BY attempt_id DESC";
+        $result = $this -> query($sql);
+        $data = [];
+        while ($row = mysqli_fetch_assoc($result)) {
+            $data[] = $row;
+        }
+        return $data;
+    }
     
 }
-    
+
+
+
 ?>

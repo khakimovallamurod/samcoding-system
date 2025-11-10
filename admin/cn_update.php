@@ -8,18 +8,18 @@ if (!isset($_SESSION['id']) || empty($_SESSION['id'])) {
 }
 
 $db = new Database();
-$problem_id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
+$cn_problem_id = isset($_GET['id']) ? (int)$_GET['id'] : 0;
 
-if ($problem_id === 0) {
-    header("Location: problems.php");
+if ($cn_problem_id === 0) {
+    header("Location: olympiads.php");
     exit;
 }
 
-$problem = $db->get_data_by_table('problems', ['id' => $problem_id]);
-
-if (!$problem) {
+$cn_problem = $db->get_data_by_table('contest_problems', ['id' => $cn_problem_id]);
+$cn_contest_id = $cn_problem['contest_id'];
+if (!$cn_problem) {
     $_SESSION['error'] = "Masala topilmadi!";
-    header("Location: problems.php");
+    header("Location: olympiads.php");
     exit;
 }
 ?>
@@ -42,31 +42,37 @@ if (!$problem) {
                         </div>
 
                         <div id="alertContainer"></div>
-
+                        
                         <div class="row column1">
                             <div class="col-md-12">
+                                <h2 style="margin-bottom: 15px;">
+                                    <a href="contest_problems.php?contest_id=<?=$cn_contest_id?>" class="btn btn-secondary">
+                                        <i class="fa fa-arrow-left"></i> Orqaga
+                                    </a>
+                                </h2>
                                 <div class="white_shd full margin_bottom_30">
+                                    
                                     <div class="full graph_head">
                                         <div class="heading1 margin_0">
-                                            <h2>Masala #<?= str_pad($problem_id, 4, '0', STR_PAD_LEFT) ?></h2>
+                                            <h2>Masala #<?= str_pad($cn_problem_id, 4, '0', STR_PAD_LEFT) ?></h2>
                                         </div>
                                     </div>
                                     <div class="full price_table padding_infor_info">
                                         <form id="updateProblemForm" enctype="multipart/form-data">
-                                            <input type="hidden" name="id" value="<?= $problem_id ?>">
+                                            <input type="hidden" name="id" value="<?= $cn_problem_id ?>">
                                             
                                             <div class="row">
                                                 <div class="col-md-8">
                                                     <div class="form-group">
                                                         <label for="title">Masala Nomi <span class="required">*</span></label>
                                                         <input type="text" class="form-control" id="title" name="title" 
-                                                            value="<?= htmlspecialchars($problem['title']) ?>" required>
+                                                            value="<?= htmlspecialchars($cn_problem['title']) ?>" required>
                                                     </div>
 
                                                     <div class="form-group">
                                                         <label for="descript">Masala Tavsifi <span class="required">*</span></label>
                                                         <textarea class="form-control" id="descript" name="descript" 
-                                                                rows="8" required><?= htmlspecialchars($problem['descript']) ?></textarea>
+                                                                rows="8" required><?= htmlspecialchars($cn_problem['descript']) ?></textarea>
                                                     </div>
 
                                                     <div class="row">
@@ -74,14 +80,14 @@ if (!$problem) {
                                                             <div class="form-group">
                                                                 <label for="input_format">Kirish Formati</label>
                                                                 <textarea class="form-control" id="input_format" name="input_format" 
-                                                                        rows="4"><?= htmlspecialchars($problem['input_format']) ?></textarea>
+                                                                        rows="4"><?= htmlspecialchars($cn_problem['input_format']) ?></textarea>
                                                             </div>
                                                         </div>
                                                         <div class="col-md-6">
                                                             <div class="form-group">
                                                                 <label for="output_format">Chiqish Formati</label>
                                                                 <textarea class="form-control" id="output_format" name="output_format" 
-                                                                        rows="4"><?= htmlspecialchars($problem['output_format']) ?></textarea>
+                                                                        rows="4"><?= htmlspecialchars($cn_problem['output_format']) ?></textarea>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -89,13 +95,13 @@ if (!$problem) {
                                                     <div class="form-group">
                                                         <label for="constraints">Cheklovlar</label>
                                                         <textarea class="form-control" id="constraints" name="constraints" 
-                                                                rows="3"><?= htmlspecialchars($problem['constraints']) ?></textarea>
+                                                                rows="3"><?= htmlspecialchars($cn_problem['constraints']) ?></textarea>
                                                     </div>
 
                                                     <div class="form-group">
                                                         <label for="izoh">Izoh</label>
                                                         <input type="text" class="form-control" id="izoh" name="izoh" 
-                                                            value="<?= htmlspecialchars($problem['izoh']) ?>">
+                                                            value="<?= htmlspecialchars($cn_problem['izoh']) ?>">
                                                     </div>
 
                                                     <div class="form-group">
@@ -168,13 +174,13 @@ if (!$problem) {
                                                     <div class="form-group">
                                                         <label for="time_limit">Vaqt Limiti (ms) <span class="required">*</span></label>
                                                         <input type="number" class="form-control" id="time_limit" name="time_limit" 
-                                                            value="<?= $problem['time_limit'] ?>" min="100" max="10000" required>
+                                                            value="<?= $cn_problem['time_limit'] ?>" min="100" max="10000" required>
                                                     </div>
 
                                                     <div class="form-group">
                                                         <label for="memory_limit">Xotira Limiti (KB) <span class="required">*</span></label>
                                                         <input type="number" class="form-control" id="memory_limit" name="memory_limit" 
-                                                            value="<?= $problem['memory_limit'] ?>" min="4096" max="262144" required>
+                                                            value="<?= $cn_problem['memory_limit'] ?>" min="4096" max="262144" required>
                                                     </div>
 
                                                     <div class="info-box alert alert-warning">
@@ -245,7 +251,7 @@ if (!$problem) {
             submitBtn.disabled = true;
             submitBtn.innerHTML = '<i class="fa fa-spinner fa-spin"></i> Saqlanmoqda...';
 
-            fetch('update_problem.php', {
+            fetch('update/cn_update_problem.php', {
                 method: 'POST',
                 body: formData
             })
@@ -254,7 +260,7 @@ if (!$problem) {
                 if (data.success) {
                     showAlert('success', data.message);
                     setTimeout(() => {
-                        window.location.href = 'problems.php';
+                        window.location.href = 'contest_problems.php?contest_id=<?=$cn_contest_id?>';
                     }, 1500);
                 } else {
                     showAlert('danger', data.message);
