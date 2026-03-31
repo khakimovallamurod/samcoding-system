@@ -1,24 +1,15 @@
 <?php
-    session_start();
-    if (!isset($_SESSION['id']) || empty($_SESSION['id'])) {
-        header("Location: ../auth/login.php");
-        exit;
-    }
+    require_once 'auth_check.php';
 ?>
+<!DOCTYPE html>
 <html lang="en">
    <?php include_once 'head.php'?>
    <link rel="stylesheet" href="../css/addproblem_style.css">
-   <body class="dashboard dashboard_1">
-      <div class="full_container">
-         <div class="inner_container">
-            <!-- Sidebar  -->
-            <?php include_once 'sidebar.php'?>
-            <!-- end sidebar -->
-            <!-- right content -->
-            <div id="content">
-               <!-- topbar -->
-               <?php include_once 'topbar.php'?>
-               <!-- end topbar -->
+   <body>
+   <div style="display:flex; min-height:100vh; background:#f1f5f9;">
+      <?php include_once 'sidebar.php'?>
+      <div id="content">
+         <?php include_once 'topbar.php'?>
                <!-- dashboard inner -->
                <div class="midde_cont">
                   <div class="container-fluid">

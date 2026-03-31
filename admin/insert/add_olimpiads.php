@@ -1,8 +1,12 @@
-<?php 
+<?php
     session_start();
     include_once '../../config.php';
-
     header('Content-Type: application/json; charset=utf-8');
+
+    if (!isset($_SESSION['id']) || empty($_SESSION['id']) || $_SESSION['role'] !== 'admin') {
+        echo json_encode(['success' => false, 'message' => 'Unauthorized.']);
+        exit;
+    }
 
     $title = $_POST['title'] ?? '';
     $description = $_POST['description'] ?? '';

@@ -1,356 +1,233 @@
 <?php
-   include_once '../config.php';
-   session_start();
-   $db = new Database();
-   $problems = $db->get_data_by_table_all("problems");
+require_once 'auth_check.php';
+require_once '../config.php';
+$db = new Database();
+$authorFilter = isset($_GET['author_id']) ? intval($_GET['author_id']) : 0;
+$where = '';
+if ($authorFilter > 0) {
+    $where = "WHERE p.author_id = {$authorFilter}";
+    $author = $db->get_data_by_table('users', ['id' => $authorFilter]);
+}
+$problems = [];
+$result = $db->query(
+    "SELECT p.*, u.fullname AS author_name, u.username AS author_username " .
+    "FROM problems p LEFT JOIN users u ON u.id = p.author_id {$where} ORDER BY p.id DESC"
+);
+while ($row = mysqli_fetch_assoc($result)) {
+    $problems[] = $row;
+}
 ?>
-<style>
-    .btn-warning {
-    margin-right: 5px;
-}
-
-.modal-content {
-    border-radius: 10px;
-}
-
-.modal-header.bg-danger {
-    border-radius: 10px 10px 0 0;
-}
-
-.required {
-    color: red;
-}
-</style>
+<!DOCTYPE html>
 <html lang="en">
-   <?php include_once 'head.php'?>
-   <head>
-       <!-- DataTables CSS -->
-       <link href="https://cdn.datatables.net/1.13.7/css/dataTables.bootstrap4.min.css" rel="stylesheet">
-       <link href="https://cdn.datatables.net/responsive/2.5.0/css/responsive.bootstrap4.min.css" rel="stylesheet">
-       <link rel="stylesheet" href="../css/problems_style.css">
-       
-   </head>
-   <body class="dashboard dashboard_1">
-      <div class="full_container">
-         <div class="inner_container">
-            <!-- Sidebar  -->
-            <?php include_once 'sidebar.php'?>
-            <!-- end sidebar -->
-            <!-- right content -->
-            <div id="content">
-               <!-- topbar -->
-               <?php include_once 'topbar.php'?>
-               <!-- end topbar -->
-               <!-- dashboard inner -->
-               <div class="midde_cont">
-                  <div class="container-fluid">
-                     <div class="row column_title">
-                     </div>
-                     <div class="row column1">
-                        <div class="col-md-12">
-                            <div class="white_shd full margin_bottom_30">
-                                <div class="full graph_head">
-                                    <div class="heading1 margin_0">
-                                        <h2><strong>Masalalar ro'yxati</strong></h2>
-                                    </div>
-                                </div>
-                                <div class="table_section padding_infor_info">
-                                    <div class="table-responsive-sm">
-                                        <table id="problemsTable" class="table table-striped table-hover">
-                                            <thead class="thead-dark">
-                                                <tr>
-                                                    <th>Tartib raqam</th>
-                                                    <th>Nomi</th>
-                                                    <th>Qiyinchiligi</th>
-                                                    <th>Toifasi</th>
-                                                    <th>👥</th>
-                                                    <th>✔️</th>
-                                                    <th>❌</th>
-                                                    <th>Test Cases</th>
-                                                    <th>Update</th>
-                                                    <th>Delete</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <?php foreach ($problems as $problem): ?>
-                                                <tr>
-                                                    <td><strong><a href="solution.php?id=<?= (int)$problem['id'] ?>"><?= str_pad($problem['id'], 4, '0', STR_PAD_LEFT) ?></a></strong></td>
-                                                    <td><strong><a href="solution.php?id=<?= (int)$problem['id'] ?>"><?= htmlspecialchars($problem['title']) ?></a></strong></td>
-                                                    <td><span class="difficulty-badge difficulty-easy"><?=$problem['difficulty']?></span></td>
-                                                    <td><span class="category-badge category-interactive"><?=$problem['category']?></span></td>
-                                                    <td><span class="status-participants">2</span></td>
-                                                    <td><span class="status-correct">5</span></td>
-                                                    <td><span class="status-wrong">1343</span></td>
-                                                    <td>
-                                                        <a href="test_views.php?id=<?= (int)$problem['id'] ?>" class="btn btn-sm btn-info">
-                                                            <i class="fa fa-eye"></i> Testni Ko'rish
-                                                        </a>
-                                                    </td>
-                                                    <td>
-                                                        <a href="update.php?id=<?= (int)$problem['id'] ?>" class="btn btn-sm btn-warning">
-                                                            <i class="fa fa-edit"></i> Tahrirlash
-                                                        </a>
-                                                    </td>
-                                                    <td>
-                                                        <button onclick="confirmDelete(<?= (int)$problem['id'] ?>)" class="btn btn-sm btn-danger">
-                                                            <i class="fa fa-trash"></i> O'chirish
-                                                        </button>
-                                                    </td>
-                                                </tr>
-                                                <?php endforeach; ?>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                     </div>
-                  </div>
-               </div>
-            </div>
-         </div>
-      </div>
-    <!-- Delete Confirmation Modal -->
-    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header bg-danger text-white">
-                    <h5 class="modal-title">
-                        <i class="fa fa-warning"></i> Masalani O'chirish
-                    </h5>
-                    <button type="button" class="close text-white" data-dismiss="modal">
-                        <span>&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <p class="text-center">
-                        <i class="fa fa-exclamation-triangle fa-3x text-warning mb-3"></i>
+<?php include_once 'head.php' ?>
+<body>
+<div class="admin-root">
+
+    <?php include_once 'sidebar.php' ?>
+
+    <div id="content">
+        <?php include_once 'topbar.php' ?>
+        <div id="main-content">
+
+            <!-- Header -->
+            <div style="display:flex; align-items:center; justify-content:space-between; margin-bottom:24px; flex-wrap:wrap; gap:12px;">
+                <div>
+                    <h1 style="font-size:22px; font-weight:700; color:#0f172a; margin:0 0 4px;">Problems</h1>
+                    <p style="color:#64748b; font-size:13px; margin:0;">
+                        <?= isset($author) ? 'Problems added by ' . htmlspecialchars($author['fullname']) : 'Manage all programming problems' ?>
                     </p>
-                    <h5 class="text-center">Ishonchingiz komilmi?</h5>
-                    <p class="text-center">Bu masalani o'chirishni xohlaysizmi? Bu amalni qaytarib bo'lmaydi!</p>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">
-                        <i class="fa fa-times"></i> Bekor qilish
-                    </button>
-                    <button type="button" class="btn btn-danger" id="confirmDeleteBtn">
-                        <i class="fa fa-trash"></i> Ha, O'chirish
-                    </button>
+                <a href="add_problem.php" style="display:inline-flex; align-items:center; gap:8px; background:linear-gradient(135deg,#2563eb,#1d4ed8); color:#fff; border-radius:10px; padding:10px 18px; font-size:13px; font-weight:600; text-decoration:none;">
+                    <i class="fas fa-circle-plus"></i> Add New Problem
+                </a>
+            </div>
+
+            <!-- Table card -->
+            <div class="content-card">
+                <div class="card-header">
+                    <div style="display:flex; align-items:center; gap:8px;">
+                        <i class="fas fa-code" style="color:#64748b;"></i>
+                        <span style="font-size:14px; font-weight:600; color:#0f172a;">All Problems</span>
+                        <span style="background:#f1f5f9; color:#64748b; border-radius:99px; padding:2px 8px; font-size:11px; font-weight:600;"><?= count($problems) ?></span>
+                    </div>
+                </div>
+
+                <div style="overflow-x:auto;">
+                    <table id="problemsTable" class="admin-table" style="width:100%;">
+                        <thead>
+                            <tr>
+                                <th style="width:70px;">ID</th>
+                                <th>Title</th>
+                                <th>Author</th>
+                                <th>Difficulty</th>
+                                <th>Category</th>
+                                <th style="width:120px;">Tests</th>
+                                <th style="width:90px;">Edit</th>
+                                <th style="width:90px;">Delete</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach ($problems as $problem):
+                                $diff  = strtolower($problem['difficulty'] ?? 'easy');
+                                $diffMap = ['beginner'=>'diff-beginner','easy'=>'diff-easy','medium'=>'diff-medium','hard'=>'diff-hard','expert'=>'diff-expert'];
+                                $diffClass = $diffMap[$diff] ?? 'diff-easy';
+                            ?>
+                            <tr>
+                                <td>
+                                    <a href="solution.php?id=<?= (int)$problem['id'] ?>"
+                                       style="font-weight:700; color:#2563eb; font-size:12px; text-decoration:none; font-family:monospace;"
+                                       onmouseover="this.style.textDecoration='underline';" onmouseout="this.style.textDecoration='none';">
+                                        #<?= str_pad($problem['id'], 4, '0', STR_PAD_LEFT) ?>
+                                    </a>
+                                </td>
+                                <td>
+                                    <a href="solution.php?id=<?= (int)$problem['id'] ?>"
+                                       style="font-weight:600; color:#1e293b; font-size:13px; text-decoration:none;"
+                                       onmouseover="this.style.color='#2563eb';" onmouseout="this.style.color='#1e293b';">
+                                        <?= htmlspecialchars($problem['title']) ?>
+                                    </a>
+                                </td>
+                                <td>
+                                    <div style="font-size:13px; color:#1e293b; font-weight:600;">
+                                        <?= htmlspecialchars($problem['author_name'] ?? 'System') ?>
+                                    </div>
+                                    <div style="font-size:11px; color:#94a3b8;">
+                                        <?= htmlspecialchars($problem['author_username'] ? '@' . $problem['author_username'] : '—') ?>
+                                    </div>
+                                </td>
+                                <td>
+                                    <span class="diff-badge <?= $diffClass ?>">
+                                        <?= htmlspecialchars($problem['difficulty']) ?>
+                                    </span>
+                                </td>
+                                <td>
+                                    <span style="background:#f1f5f9; color:#475569; border-radius:6px; padding:3px 9px; font-size:11px; font-weight:600;">
+                                        <?= htmlspecialchars($problem['category'] ?? '—') ?>
+                                    </span>
+                                </td>
+                                <td>
+                                    <a href="test_views.php?id=<?= (int)$problem['id'] ?>"
+                                       style="display:inline-flex; align-items:center; gap:5px; background:#eff6ff; color:#2563eb; border:1px solid #bfdbfe; border-radius:7px; padding:5px 10px; font-size:11px; font-weight:500; text-decoration:none; transition: all 0.15s;"
+                                       onmouseover="this.style.background='#dbeafe';" onmouseout="this.style.background='#eff6ff';">
+                                        <i class="fas fa-eye" style="font-size:10px;"></i> View Tests
+                                    </a>
+                                </td>
+                                <td>
+                                    <a href="update.php?id=<?= (int)$problem['id'] ?>"
+                                       style="display:inline-flex; align-items:center; gap:5px; background:#fffbeb; color:#b45309; border:1px solid #fde68a; border-radius:7px; padding:5px 10px; font-size:11px; font-weight:500; text-decoration:none; transition: all 0.15s;"
+                                       onmouseover="this.style.background='#fef3c7';" onmouseout="this.style.background='#fffbeb';">
+                                        <i class="fas fa-pen-to-square" style="font-size:10px;"></i> Edit
+                                    </a>
+                                </td>
+                                <td>
+                                    <button onclick="confirmDelete(<?= (int)$problem['id'] ?>)"
+                                        style="display:inline-flex; align-items:center; gap:5px; background:#fff5f5; color:#dc2626; border:1px solid #fecaca; border-radius:7px; padding:5px 10px; font-size:11px; font-weight:500; cursor:pointer; transition: all 0.15s;"
+                                        onmouseover="this.style.background='#fee2e2';" onmouseout="this.style.background='#fff5f5';">
+                                        <i class="fas fa-trash" style="font-size:10px;"></i> Delete
+                                    </button>
+                                </td>
+                            </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
                 </div>
             </div>
+
+        </div><!-- /main-content -->
+    </div><!-- /content -->
+</div>
+
+<!-- Delete Confirmation Modal -->
+<div id="deleteModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.5); z-index:9999; display:none; align-items:center; justify-content:center;">
+    <div style="background:#fff; border-radius:16px; padding:28px; max-width:400px; width:90%; box-shadow:0 25px 50px rgba(0,0,0,0.2); animation: slideUp 0.2s ease;">
+        <div style="text-align:center; margin-bottom:20px;">
+            <div style="width:56px; height:56px; background:#fee2e2; border-radius:16px; display:flex; align-items:center; justify-content:center; margin:0 auto 14px;">
+                <i class="fas fa-trash" style="color:#dc2626; font-size:22px;"></i>
+            </div>
+            <h3 style="font-size:17px; font-weight:700; color:#0f172a; margin:0 0 6px;">Delete Problem?</h3>
+            <p style="color:#64748b; font-size:13px; margin:0;">This action cannot be undone. All tests and attempts for this problem will also be removed.</p>
+        </div>
+        <div style="display:flex; gap:10px;">
+            <button onclick="closeDeleteModal()"
+                style="flex:1; padding:10px; border:1px solid #e2e8f0; background:#f8fafc; border-radius:10px; font-size:13px; font-weight:600; color:#475569; cursor:pointer; transition: background 0.15s;"
+                onmouseover="this.style.background='#f1f5f9';" onmouseout="this.style.background='#f8fafc';">
+                Cancel
+            </button>
+            <button id="confirmDeleteBtn"
+                style="flex:1; padding:10px; border:none; background:linear-gradient(135deg,#dc2626,#b91c1c); border-radius:10px; font-size:13px; font-weight:600; color:#fff; cursor:pointer; transition: opacity 0.15s;"
+                onmouseover="this.style.opacity='0.9';" onmouseout="this.style.opacity='1';">
+                <i class="fas fa-trash" style="margin-right:6px;"></i>Yes, Delete
+            </button>
         </div>
     </div>
+</div>
 
-    
-      <script src="../js/jquery.min.js"></script>
-      <script src="../js/bootstrap.min.js"></script>
-      <script src="../js/perfect-scrollbar.min.js"></script>
-      
-      <script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
-      <script src="https://cdn.datatables.net/1.13.7/js/dataTables.bootstrap4.min.js"></script>
-      <script src="https://cdn.datatables.net/responsive/2.5.0/js/dataTables.responsive.min.js"></script>
-      <script src="https://cdn.datatables.net/responsive/2.5.0/js/responsive.bootstrap4.min.js"></script>
-      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-      <script>
-            let deleteId = null;
+<style>
+@keyframes slideUp {
+    from { transform: translateY(20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+</style>
 
-            function confirmDelete(id) {
-                deleteId = id;
-                $('#deleteModal').modal('show');
+<script src="../js/jquery.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.7/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/responsive/2.5.0/js/dataTables.responsive.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+
+<script>
+let deleteId = null;
+
+function confirmDelete(id) {
+    deleteId = id;
+    document.getElementById('deleteModal').style.display = 'flex';
+}
+function closeDeleteModal() {
+    document.getElementById('deleteModal').style.display = 'none';
+    deleteId = null;
+}
+
+// Close on backdrop click
+document.getElementById('deleteModal').addEventListener('click', function(e) {
+    if (e.target === this) closeDeleteModal();
+});
+
+document.getElementById('confirmDeleteBtn').addEventListener('click', function() {
+    if (!deleteId) return;
+    this.textContent = 'Deleting...';
+    this.disabled = true;
+
+    fetch('delete/delete_problem.php?id=' + deleteId)
+        .then(r => r.json())
+        .then(data => {
+            closeDeleteModal();
+            if (data.success) {
+                toastr.success(data.message || 'Problem deleted!');
+                setTimeout(() => location.reload(), 1500);
+            } else {
+                toastr.error(data.message || 'Delete failed.');
             }
-
-            document.getElementById('confirmDeleteBtn').addEventListener('click', function() {
-                if (deleteId) {
-                    fetch('delete/delete_problem.php?id=' + deleteId)
-                        .then(response => response.json())
-                        .then(data => {
-                            $('#deleteModal').modal('hide');
-                            if (data.success) {
-                                toastr.success(data.message, "Muvaffaqiyat ✅");
-                                setTimeout(() => location.reload(), 2000); 
-                            } else {
-                                toastr.error(data.message, "Xatolik ❌");
-                            }
-                        })
-                        .catch(error => {
-                            toastr.error('Xatolik: ' + error.message, "Server bilan muammo");
-                        });
-                }
-            });     
-
-      </script>
-      <script>
-         var ps = new PerfectScrollbar('#sidebar');
-         
-         $(document).ready(function() {
-            var table = $('#problemsTable').DataTable({
-                "responsive": true,
-                "processing": true,
-                "pageLength": 10,
-                "lengthMenu": [[5, 10, 25, 50, -1], [5, 10, 25, 50, "Hammasi"]],
-                
-                "language": {
-                    "lengthMenu": "Sahifada _MENU_ ta yozuv ko'rsatish",
-                    "zeroRecords": "Hech qanday natija topilmadi",
-                    "info": "_START_ dan _END_ gacha, jami _TOTAL_ ta yozuv",
-                    "infoEmpty": "Yozuvlar mavjud emas",
-                    "infoFiltered": "(_MAX_ ta yozuvdan filtrlandi)",
-                    "search": "Qidirish:",
-                    "paginate": {
-                        "first": "Birinchi",
-                        "last": "Oxirgi",
-                        "next": "Keyingi",
-                        "previous": "Oldingi"
-                    },
-                    "processing": "Yuklanmoqda..."
-                },
-                
-                "columnDefs": [
-                    {
-                        "targets": [2], 
-                        "type": "num",
-                        "render": function(data, type, row) {
-                            if (type === 'sort' || type === 'type') {
-                                // Extract number from percentage for sorting
-                                var match = data.match(/(\d+)%/);
-                                return match ? parseInt(match[1]) : 0;
-                            }
-                            return data;
-                        }
-                    },
-                    {
-                        "targets": [3], 
-                        "type": "string"
-                    },
-                    {
-                        "targets": [4], 
-                        "type": "num",
-                        "render": function(data, type, row) {
-                            if (type === 'sort' || type === 'type') {
-                                // Count filled stars for sorting
-                                var filledStars = (data.match(/★/g) || []).length;
-                                var emptyStars = (data.match(/style="color:#ddd;">★/g) || []).length;
-                                return filledStars - emptyStars;
-                            }
-                            return data;
-                        }
-                    },
-                    {
-                        "targets": [5, 6, 7, 8], 
-                        "type": "num"
-                    }
-                ],
-                
-                "order": [[0, "desc"]],
-                
-                "dom": '<"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6"f>>' +
-                    '<"row"<"col-sm-12"tr>>' +
-                    '<"row"<"col-sm-12 col-md-5"i><"col-sm-12 col-md-7"p>>',
-                
-                "autoWidth": false,
-                "stateSave": true,
-                "stateDuration": 300,
-                
-                "initComplete": function(settings, json) {
-                    var categoryFilter = $('<select class="filter-dropdown">' +
-                        '<option value="">Barcha toifalar</option>' +
-                        '<option value="Interactive">Interactive</option>' +
-                        '<option value="Algorithm">Algorithm</option>' +
-                        '<option value="Math">Math</option>' +
-                        '<option value="Graph">Graph</option>' +
-                        '</select>');
-                    
-                    $('.dataTables_filter label').append(categoryFilter);
-                    
-                    categoryFilter.on('change', function() {
-                        var val = this.value;
-                        table.column(3).search(val).draw(); // Toifa ustuni index 3
-                    });
-                    
-                    var difficultyFilter = $('<select class="filter-dropdown">' +
-                        '<option value="">Barcha qiyinlik</option>' +
-                        '<option value="easy">Oson (0-30%)</option>' +
-                        '<option value="medium">O\'rta (31-70%)</option>' +
-                        '<option value="hard">Qiyin (71-100%)</option>' +
-                        '</select>');
-                    
-                    $('.dataTables_filter label').append(difficultyFilter);
-                    
-                    difficultyFilter.on('change', function() {
-                        var val = this.value;
-                        var searchTerm = '';
-                        
-                        if (val === 'easy') {
-                            searchTerm = '^([0-2][0-9]|30)%';
-                        } else if (val === 'medium') {
-                            searchTerm = '^([3-6][0-9]|70)%';
-                        } else if (val === 'hard') {
-                            searchTerm = '^([7-9][0-9]|100)%';
-                        }
-                        
-                        table.column(2).search(searchTerm, true, false).draw(); 
-                    });
-                    
-                    var ratingFilter = $('<select class="filter-dropdown">' +
-                        '<option value="">Barcha reytinglar</option>' +
-                        '<option value="5stars">5 yulduz</option>' +
-                        '<option value="4stars">4 yulduz</option>' +
-                        '<option value="3stars">3 yulduz</option>' +
-                        '<option value="2stars">2 yulduz va past</option>' +
-                        '</select>');
-                    
-                    $('.dataTables_filter label').append(ratingFilter);
-                    
-                    ratingFilter.on('change', function() {
-                        var val = this.value;
-                        var searchTerm = '';
-                        
-                        if (val === '5stars') {
-                            searchTerm = '★★★★★';
-                        } else if (val === '4stars') {
-                            searchTerm = '★★★★.*★.*ddd|★★★★$';
-                        } else if (val === '3stars') {
-                            searchTerm = '★★★.*★.*ddd.*★.*ddd|★★★$';
-                        } else if (val === '2stars') {
-                            searchTerm = '★★.*★.*ddd.*★.*ddd.*★.*ddd|★★$|★[^★]*ddd';
-                        }
-                        
-                        table.column(4).search(searchTerm, true, false).draw(); // Rating ustuni index 4
-                    });
-                }
-            });
-            // Search highlighting
-            table.on('draw.dt', function() {
-                var searchTerm = $('#problemsTable_filter input').val();
-                if (searchTerm) {
-                    $('#problemsTable tbody tr').each(function() {
-                        var $row = $(this);
-                        $row.find('td').each(function() {
-                            var $cell = $(this);
-                            var cellText = $cell.text();
-                            if (cellText.toLowerCase().indexOf(searchTerm.toLowerCase()) !== -1 && 
-                                !$cell.find('.btn').length && 
-                                !$cell.find('.difficulty-badge').length && 
-                                !$cell.find('.category-badge').length &&
-                                !$cell.find('.rating-stars').length) {
-                                var highlightedText = cellText.replace(
-                                    new RegExp('(' + searchTerm.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + ')', 'gi'),
-                                    '<mark style="background-color: #fff3cd; padding: 1px 2px;">$1</mark>'
-                                );
-                                $cell.html(highlightedText);
-                            }
-                        });
-                    });
-                }
-            });
-            
-            $.extend($.fn.dataTable.ext.type.order, {
-                "id-pre": function (a) {
-                    return parseInt(a.replace(/\D/g, ''), 10) || 0;
-                }
-            });
+        })
+        .catch(() => {
+            closeDeleteModal();
+            toastr.error('Server error. Please try again.');
         });
-      </script>
-   </body>
+});
+
+$(document).ready(function() {
+    $('#problemsTable').DataTable({
+        responsive: true,
+        pageLength: 25,
+        lengthMenu: [[10, 25, 50, 100, -1], [10, 25, 50, 100, "All"]],
+        order: [[0, "desc"]],
+        language: {
+            search: "Search:",
+            lengthMenu: "Show _MENU_ entries",
+            info: "Showing _START_ to _END_ of _TOTAL_ problems",
+            paginate: { next: "Next →", previous: "← Prev" }
+        }
+    });
+});
+</script>
+</body>
 </html>

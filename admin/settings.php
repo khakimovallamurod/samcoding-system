@@ -1,11 +1,4 @@
-<?php
-   session_start();
-   if (!isset($_SESSION['id']) || empty($_SESSION['id'])) {
-      header("Location: ../auth/login.php");
-      exit;
-   }
-
-?>
+<?php require_once 'auth_check.php'; ?>
 <html lang="en">
    <?php include_once 'head.php'?>
    <body class="dashboard dashboard_1">

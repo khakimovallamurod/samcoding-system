@@ -1,11 +1,6 @@
 <?php
-    session_start();
-    if (!isset($_SESSION['id']) || empty($_SESSION['id'])) {
-        header("Location: ../auth/login.php");
-        exit;
-    }
-    
-    include_once "../config.php";
+    require_once 'auth_check.php';
+    require_once '../config.php';
     $db = new Database();
     
     $cn_problem_id = isset($_GET['id']) ? intval($_GET['id']) : 0;
